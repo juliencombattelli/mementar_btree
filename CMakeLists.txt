@@ -13,6 +13,6 @@ include(cmake/CompileWarnings.cmake)
 include(cmake/StaticAnalyzers.cmake)
 
 add_executable(btree_test test/btree_test.cpp)
-target_include_directories(btree_test PRIVATE include)
+target_include_directories(btree_test PRIVATE include/btree)
 target_compile_features(btree_test PRIVATE cxx_std_17)
 target_compile_warnings(btree_test WARNINGS_AS_ERRORS FATAL_ERRORS)
