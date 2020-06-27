@@ -72,8 +72,8 @@ using BPTree = BTree<TKey, LinkedValue<TValue>>;
 // Default implementation for TValue-specific operations doing nothing
 template <typename TK, typename TV>
 struct ValueSpecific<TK, TV, void> {
-    using BTree = BTree<TK, TV>;
-    using Node = typename BTree::Node;
+    using BTree_ = BTree<TK, TV>;
+    using Node = typename BTree_::Node;
     void insert(Node*, const TK&, std::optional<TV>) {
         std::puts("default");
     }
