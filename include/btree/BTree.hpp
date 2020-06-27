@@ -35,7 +35,7 @@ template <typename TKey, typename TValue = void>
 class BTree {
 public:
 #ifdef SIMPLE_NODE
-    using Node = impl::Node<TKey, TValue>;
+    using Node = impl::Node<TKey, TValue, impl::NodePolicyVector>;
 #else
     using Node = impl::NodeInterface<TKey, impl::NodeWithValue<TKey, TValue>>;
 #endif

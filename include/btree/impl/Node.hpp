@@ -2,6 +2,7 @@
 #define INCLUDE_BTREE_IMPL_NODE_HPP
 
 #include <memory>
+#include <vector>
 
 namespace utility {
 // Perform a static downcast on unique ptrs
@@ -18,29 +19,43 @@ namespace impl {
 // Internal node representation
 // Two implementation are available for now: one with code duplication and one without
 // Use the following switch to choose the implementation
-#define SIMPLE_NODE
+//#define SIMPLE_NODE
 
 #ifdef SIMPLE_NODE
 // Yes there is code duplication, but this is a simple implementation with only 13 LOC
 
+struct NodePolicyVector {
+    template <typename TNode>
+    using container = std::vector<TNode>;
+};
+
 // Node class with all data members
-template <typename TKey, typename TValue = void>
+template <typename TKey, typename TValue, typename TNodePolicy>
 struct Node {
-    std::unique_ptr<Node> left{nullptr};
-    std::unique_ptr<Node> right{nullptr};
+    using TContainer = typename TNodePolicy::template container<Node>;
+    TContainer childs;
     Node* parent{nullptr};
     TKey key;
     TValue value;
 };
 
 // Specialization of Node with no value member if the requested TValue type is void
-template <typename TKey>
-struct Node<TKey, void> {
-    std::unique_ptr<Node> left{nullptr};
-    std::unique_ptr<Node> right{nullptr};
+template <typename TKey, typename TNodePolicy>
+struct Node<TKey, void, TNodePolicy> {
+    using TContainer = typename TNodePolicy::template container<Node>;
+    TContainer childs;
     Node* parent{nullptr};
     TKey key;
 };
+
+template <size_t N>
+struct NodePolicyArray {
+    template <typename TNode>
+    using container = std::array<TNode, N>;
+};
+
+template <size_t N, typename TKey, typename TValue = void>
+using NodeArray = Node<NodePolicyArray<N>, TKey, TValue>;
 
 #else
 // Yes there is NO code duplication, but this is a far more complexe implementation with more than
