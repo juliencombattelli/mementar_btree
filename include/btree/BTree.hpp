@@ -40,7 +40,7 @@ public:
     using Node = impl::NodeInterface<TKey, impl::NodeWithValue<TKey, TValue>>;
 #endif
     // Insert a (`key`, `value`) pair in the tree
-    void insert(const TKey& key, std::optional<TValue> value = std::nullopt) {
+    void insert(const TKey& key, std::optional<TValue> value = std::nullopt) {  // TODO: remove opt
         insert(m_root.get(), key, value);
     }
     // Remove the node corresponding to `key`
