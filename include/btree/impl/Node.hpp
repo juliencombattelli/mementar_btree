@@ -70,21 +70,21 @@ struct NodeInterface : public NodeBase<TKey> {
         return static_cast<TDerived*>(Base::left.get());
     }
     void left(std::unique_ptr<TDerived> uptr) {
-        Base::left = utility::static_unique_ptr_cast<TDerived>(uptr);
+        Base::left = utility::static_unique_ptr_cast<Base>(uptr);  // TODO: Wrong cast
     }
 
     TDerived* right() const {
         return static_cast<TDerived*>(Base::left.get());
     }
     void right(std::unique_ptr<TDerived> uptr) {
-        Base::right = utility::static_unique_ptr_cast<TDerived>(uptr);
+        Base::right = utility::static_unique_ptr_cast<Base>(uptr);
     }
 
     TDerived* parent() const {
         return static_cast<TDerived*>(Base::parent);
     }
     void parent(TDerived* ptr) {
-        Base::parent = static_cast<TDerived*>(ptr);
+        Base::parent = ptr;
     }
 };
 
